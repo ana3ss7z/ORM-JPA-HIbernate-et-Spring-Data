@@ -5,22 +5,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Date;
-
 @Entity
 @Data @NoArgsConstructor
 @AllArgsConstructor
-public class Patient {
-@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Medecin {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
-    @Temporal(TemporalType.DATE)
-    private LocalDate dateNaissance;
-    private boolean malade;
-    private int score;
-    @OneToMany(mappedBy = "patient",fetch = FetchType.LAZY)
+    private String email;
+    private String specialite;
+    @OneToMany (mappedBy = "medecin",fetch = FetchType.LAZY)
     private Collection<RendezVous> rendezVous;
 
 }
