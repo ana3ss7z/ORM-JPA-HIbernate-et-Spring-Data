@@ -17,9 +17,9 @@ public class Patient {
     private Long id;
     private String nom;
     @Temporal(TemporalType.DATE)
-    private LocalDate dateNaissance;
+    private Date dateNaissance;
     private boolean malade;
-    private int score;
+//    private int score;
     @OneToMany(mappedBy = "patient",fetch = FetchType.LAZY)
     private Collection<RendezVous> rendezVous;
 

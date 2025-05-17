@@ -12,6 +12,7 @@ import java.util.List;
 
 public interface PatientRepository extends JpaRepository<Patient, Long> {
     List<Patient> findByNomContains(String n);
+    Patient findByNom(String n);
     @Modifying
     @Transactional
     @Query("UPDATE Patient p set p.nom = :nom WHERE p.id = :id")

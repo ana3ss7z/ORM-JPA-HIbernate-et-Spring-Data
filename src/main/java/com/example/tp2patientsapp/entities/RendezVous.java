@@ -12,15 +12,17 @@ import java.util.Date;
 public class RendezVous {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nom;
+//    private String nom;
     private Date date;
+    @Enumerated(EnumType.STRING)
     private StatusRDV status;
     @ManyToOne
     private Patient patient;
     @ManyToOne
     private Medecin medecin;
-    @OneToOne (mappedBy = "rendezvous")
+    @OneToOne (mappedBy = "rendezVous")
     private Consultation consultation;
+
 
 
 }
