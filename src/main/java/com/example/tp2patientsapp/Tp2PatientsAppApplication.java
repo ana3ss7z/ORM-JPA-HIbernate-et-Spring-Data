@@ -1,12 +1,10 @@
 package com.example.tp2patientsapp;
 
-import com.example.tp2patientsapp.entities.Medecin;
-import com.example.tp2patientsapp.entities.Patient;
-import com.example.tp2patientsapp.entities.RendezVous;
-import com.example.tp2patientsapp.entities.StatusRDV;
+import com.example.tp2patientsapp.entities.*;
 import com.example.tp2patientsapp.repository.MedecinRepository;
 import com.example.tp2patientsapp.repository.PatientRepository;
 import com.example.tp2patientsapp.repository.RendezVousRepository;
+import com.example.tp2patientsapp.service.IHostpitalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -80,11 +78,12 @@ public class Tp2PatientsAppApplication  {
 
 
     @Bean
-    CommandLineRunner start(PatientRepository patientRepository,
+    CommandLineRunner start(IHostpitalService hostpitalService,
+                            PatientRepository patientRepository,
                             RendezVousRepository rendezVousRepository,
                             MedecinRepository medecinRepository) {
         return args -> {
-            patientRepository.save(new Patient(null, "anass",new Date() ,false,null));
+            hostpitalService.savePatient(new Patient(null, "anass",new Date() ,false,null));
 
             Stream.of("dr,Hassan","dr.Salah","dr.Karim ")
                     .forEach(name -> {
@@ -92,7 +91,7 @@ public class Tp2PatientsAppApplication  {
                         medecin.setNom(name);
                         medecin.setEmail(name+"@gmail.com");
                         medecin.setSpecialite(Math.random()>0.4?"Cardio":"Dentiste");
-                        medecinRepository.save(medecin);
+                        hostpitalService.saveMedecin(medecin);
                     });
         Patient p1 = patientRepository.findById(1L).orElse(null);
         Patient p2 = patientRepository.findByNom("anass");
@@ -104,7 +103,16 @@ public class Tp2PatientsAppApplication  {
         r1.setStatus(StatusRDV.CANCELED);
         r1.setMedecin(m1);
         r1.setPatient(p1);
-        rendezVousRepository.save(r1);
+        hostpitalService.saveRendezVous(r1);
+
+
+        RendezVous r2 = rendezVousRepository.findAll().get(0);
+        Consultation c1 = new Consultation();
+        c1.setDateConsultation(new Date());
+        c1.setRendezVous(r2);
+        c1.setRapport("Rapport du consultation 1");
+        hostpitalService.saveConsultation(c1);
+
         };
 
 

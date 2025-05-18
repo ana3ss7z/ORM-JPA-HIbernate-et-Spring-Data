@@ -4,14 +4,16 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
+@Component
 @Entity
 @Data @NoArgsConstructor
 @AllArgsConstructor
 public class RendezVous {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Id
+    private String id;
 //    private String nom;
     private Date date;
     @Enumerated(EnumType.STRING)
