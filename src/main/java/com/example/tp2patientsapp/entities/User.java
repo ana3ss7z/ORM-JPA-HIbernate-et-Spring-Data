@@ -14,6 +14,7 @@ import java.util.List;
 public class User {
     @Id
     private String id;
+    @Column(unique = true, nullable = false, length = 20)
     private String username;
     private String password;
     @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)

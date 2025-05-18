@@ -4,7 +4,9 @@ import com.example.tp2patientsapp.entities.*;
 import com.example.tp2patientsapp.repository.MedecinRepository;
 import com.example.tp2patientsapp.repository.PatientRepository;
 import com.example.tp2patientsapp.repository.RendezVousRepository;
+import com.example.tp2patientsapp.repository.RoleRepository;
 import com.example.tp2patientsapp.service.IHostpitalService;
+import com.example.tp2patientsapp.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -26,9 +28,10 @@ public class Tp2PatientsAppApplication  {
 
     @Bean
     CommandLineRunner start(IHostpitalService hostpitalService,
+                            IUserService userService,
                             PatientRepository patientRepository,
                             RendezVousRepository rendezVousRepository,
-                            MedecinRepository medecinRepository) {
+                            MedecinRepository medecinRepository, RoleRepository roleRepository) {
         return args -> {
             //// ---------------Ajouter des patients------------------------
             hostpitalService.savePatient(new Patient(null,"Anass", new Date(), false,null));
@@ -85,6 +88,49 @@ public class Tp2PatientsAppApplication  {
         c1.setRendezVous(r2);
         c1.setRapport("Rapport du consultation 1");
         hostpitalService.saveConsultation(c1);
+
+//    -------------------User and Role Part---------------
+        User u1 = new User();
+        u1.setUsername("anass");
+        u1.setPassword("1234");
+        userService.addNewuser(u1);
+
+        User u2 = new User();
+        u2.setUsername("aymane");
+        u2.setPassword("12345");
+        userService.addNewuser(u2);
+
+
+        Stream.of("ADMIN","USER","DEVELOPER")
+                .forEach(r->{
+                    Role role = new Role();
+                    role.setRoleName(r);
+                    userService.addNewrole(role);
+                });
+//        User uu = userService.findUserByUsername("anass");
+//            System.out.println(uu.getUsername());
+        userService.addRoleToUser("anass","USER");
+        userService.addRoleToUser("anass","DEVELOPER");
+        userService.addRoleToUser("aymane","USER");
+        userService.addRoleToUser("aymane","ADMIN");
+
+//        ---------------Authentification------------
+        try {
+
+            User conUser = userService.authenticate("anass","1234");
+            System.out.println("Connection reussite : ");
+            System.out.println(conUser.getId());
+            System.out.println(conUser.getUsername());
+            System.out.println("Roles : ");
+            conUser.getRoles().forEach(role->{
+//                System.out.println("Role : "+role.getRoleName());
+                System.out.println("Role : "+role);
+            });
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         };
 
