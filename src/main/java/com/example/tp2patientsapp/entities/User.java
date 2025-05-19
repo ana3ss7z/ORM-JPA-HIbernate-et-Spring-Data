@@ -19,5 +19,4 @@ public class User {
     private String password;
     @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
     private List<Role> roles = new ArrayList<>();
-
 }

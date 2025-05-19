@@ -46,20 +46,16 @@ public class Tp2PatientsAppApplication  {
         System.out.println("Patient Id: " + pUpdate.getId());
         System.out.println("Patient Nom: " + pUpdate.getNom());
         System.out.println("Patient Date Naissance: " + pUpdate.getDateNaissance());
-
             ////     -----------------Modifer la Date de naissance du patient---------------------
         hostpitalService.updatePatientDate(LocalDate.of(2000,12,03),2L);
-
             ////     -----------------Modifer l'etat' du patient---------------------
         hostpitalService.updatePatientMalade(false,3L);
         hostpitalService.updatePatientMalade(true,2L);
 
-
-            //// ---------------- Supprimer Un patient-------------------
-        hostpitalService.deletePatient(3L);
+//            //// ---------------- Supprimer Un patient-------------------
+//        hostpitalService.deletePatient(3L);
 
             //// ---------------Ajouter des Medecins------------------------
-
             Stream.of("dr,Hassan","dr.Salah","dr.Karim ")
                     .forEach(name -> {
                         Medecin medecin = new Medecin();
@@ -71,8 +67,8 @@ public class Tp2PatientsAppApplication  {
         Patient p1 = patientRepository.findById(1L).orElse(null);
         Patient p2 = patientRepository.findByNom("anass");
 
-        Medecin m1 = medecinRepository.findByNomContains("Karim");
 // -------------Ajouter des rendezèvous-----------------------
+        Medecin m1 = medecinRepository.findByNomContains("Karim");
         RendezVous r1 = new RendezVous();
         r1.setDate(new Date());
         r1.setStatus(StatusRDV.CANCELED);
@@ -81,7 +77,6 @@ public class Tp2PatientsAppApplication  {
         hostpitalService.saveRendezVous(r1);
 
 // -----------------Ajouter des Consultations-------------------------
-
         RendezVous r2 = rendezVousRepository.findAll().get(0);
         Consultation c1 = new Consultation();
         c1.setDateConsultation(new Date());
@@ -116,14 +111,12 @@ public class Tp2PatientsAppApplication  {
 
 //        ---------------Authentification------------
         try {
-
             User conUser = userService.authenticate("anass","1234");
             System.out.println("Connection reussite : ");
             System.out.println(conUser.getId());
             System.out.println(conUser.getUsername());
             System.out.println("Roles : ");
             conUser.getRoles().forEach(role->{
-//                System.out.println("Role : "+role.getRoleName());
                 System.out.println("Role : "+role);
             });
 

@@ -52,17 +52,14 @@ public class UserServiceImpl implements  IUserService{
             user.getRoles().add(role);
             role.getUsers().add(user);
         }
-
     }
 
     @Override
     public User authenticate(String username, String password) {
         User user = findUserByUsername(username);
-
         if (user == null) throw new RuntimeException("Invalid username or password");
         if (user.getPassword().equals(password)) {
             return user;
         }
         throw new RuntimeException("Invalid username or password");
-    }
-}
+    }}

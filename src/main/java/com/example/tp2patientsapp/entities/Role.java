@@ -22,5 +22,4 @@ public class Role {
 //    @JoinTable(name = "USERS_ROLES")
     @ToString.Exclude
     private List<User> users = new ArrayList<>();
-
 }
